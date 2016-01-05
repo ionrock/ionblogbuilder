@@ -67,7 +67,7 @@ func PublishBlog() {
 
 func main() {
 	server := hookserve.NewServer()
-	server.Port = strcov.Atoi(os.Getenv("IONBLOG_PORT"))
+	server.Port = strconv.Atoi(os.Getenv("IONBLOG_PORT"))
 	server.Secret = os.Getenv("IONBLOG_SECRET")
 	server.GoListenAndServe()
 
