@@ -61,7 +61,6 @@ func ReleaseBlog(blogdir string) {
 func PublishBlog() {
 	dirname := CheckoutBlog()
 	BuildBlog(dirname)
-	ReleaseBlog(dirname)
 	fmt.Println("Done.")
 }
 
