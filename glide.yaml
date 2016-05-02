@@ -1,0 +1,4 @@
+package: github.com/ionrock/ionblogbuilder
+import:
+- package: github.com/codegangsta/cli
+- package: github.com/phayes/hookserve/hookserve

@@ -1,0 +1,12 @@
+hash: f7d124ad2cd8ee0b975522abdfc43b1505eac66022f70593470418c2811861d2
+updated: 2016-05-02T11:19:32.724992108-05:00
+imports:
+- name: github.com/bmatsuo/go-jsontree
+  version: 8a1cc1e88d44390691f69163f6bc597aac267cc3
+- name: github.com/codegangsta/cli
+  version: 415b5e766a61c4e9272f9e72742fc777fca0c224
+- name: github.com/phayes/hookserve
+  version: 5688de3176153b9bae57e5dc246756f8b47680df
+  subpackages:
+  - hookserve
+devImports: []
