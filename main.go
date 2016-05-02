@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"time"
 
 	"github.com/codegangsta/cli"
 	"github.com/phayes/hookserve/hookserve"
@@ -70,10 +71,12 @@ func Serve(port int, secret string) {
 	server.Secret = secret
 	server.GoListenAndServe()
 
-	for commit := range server.Events {
-		fmt.Println(commit.Owner + " " + commit.Repo + " " + commit.Branch + " " + commit.Commit)
-		if commit.Branch == "master" {
-			PublishBlog()
+	for {
+		for commit := range server.Events {
+			fmt.Println(commit.Owner + " " + commit.Repo + " " + commit.Branch + " " + commit.Commit)
+			if commit.Branch == "master" {
+				PublishBlog()
+			}
 		}
 	}
 }
