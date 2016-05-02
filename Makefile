@@ -2,7 +2,7 @@ PROG=ionblogbuilder
 
 
 build:
-	go build -o $(PROG) main.go
+	go build
 
 deps:
 	go get
