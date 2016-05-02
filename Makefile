@@ -2,6 +2,8 @@ DOCKER_PATH='/go/src/ionblogbuilder'
 DOCKER_IMAGE='ionrock/ionblogbuilder'
 
 
+all: deps build
+
 build:
 	go build
 
