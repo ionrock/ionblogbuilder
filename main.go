@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"strconv"
 	"time"
 
+	"github.com/codegangsta/cli"
 	"github.com/phayes/hookserve/hookserve"
 )
 
@@ -64,10 +64,10 @@ func PublishBlog() {
 	fmt.Println("Done.")
 }
 
-func main() {
+func Serve(port int, secret string) {
 	server := hookserve.NewServer()
-	server.Port, _ = strconv.Atoi(os.Getenv("IONBLOG_PORT"))
-	server.Secret = os.Getenv("IONBLOG_SECRET")
+	server.Port = port
+	server.Secret = secret
 	server.GoListenAndServe()
 
 	for {
@@ -81,4 +81,31 @@ func main() {
 			time.Sleep(100)
 		}
 	}
+}
+
+func main() {
+	app := cli.NewApp()
+	app.Flags = []cli.Flag{
+		cli.IntFlag{
+			Name:   "port, p",
+			Value:  5566,
+			Usage:  "The port github will use to send webhooks",
+			EnvVar: "PORT,IONBLOG_PORT",
+		},
+		cli.StringFlag{
+			Name:   "secret, s",
+			Usage:  "Github secret key",
+			EnvVar: "IONBLOG_SECRET",
+		},
+	}
+
+	app.Action = func(c *cli.Context) {
+		if c.String("secret") == "" {
+			panic("A secret value is required!")
+		}
+
+		Serve(c.Int("port"), c.String("secret"))
+	}
+
+	app.Run(os.Args)
 }
