@@ -72,11 +72,14 @@ func Serve(port int, secret string) {
 	server.GoListenAndServe()
 
 	for {
-		for commit := range server.Events {
-			fmt.Println(commit.Owner + " " + commit.Repo + " " + commit.Branch + " " + commit.Commit)
+		select {
+		case event := <-server.Events:
+			fmt.Println(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
 			if commit.Branch == "master" {
 				PublishBlog()
 			}
+		default:
+			time.Sleep(5)
 		}
 	}
 }
@@ -99,6 +102,7 @@ func main() {
 	}
 
 	app.Action = func(c *cli.Context) error {
+
 		if c.String("secret") == "" {
 			fmt.Println("A secret value is required!")
 			return errors.New("A secret value is required!")
