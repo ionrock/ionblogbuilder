@@ -1,10 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
-	"time"
 
 	"github.com/codegangsta/cli"
 	"github.com/phayes/hookserve/hookserve"
@@ -70,21 +70,17 @@ func Serve(port int, secret string) {
 	server.Secret = secret
 	server.GoListenAndServe()
 
-	for {
-		select {
-		case event := <-server.Events:
-			fmt.Println(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
-			if event.Branch == "master" {
-				PublishBlog()
-			}
-		default:
-			time.Sleep(100)
+	for commit := range server.Events {
+		fmt.Println(commit.Owner + " " + commit.Repo + " " + commit.Branch + " " + commit.Commit)
+		if commit.Branch == "master" {
+			PublishBlog()
 		}
 	}
 }
 
 func main() {
 	app := cli.NewApp()
+	app.Name = "ionblogbuilder"
 	app.Flags = []cli.Flag{
 		cli.IntFlag{
 			Name:   "port, p",
@@ -99,12 +95,14 @@ func main() {
 		},
 	}
 
-	app.Action = func(c *cli.Context) {
+	app.Action = func(c *cli.Context) error {
 		if c.String("secret") == "" {
-			panic("A secret value is required!")
+			fmt.Println("A secret value is required!")
+			return errors.New("A secret value is required!")
 		}
 
 		Serve(c.Int("port"), c.String("secret"))
+		return nil
 	}
 
 	app.Run(os.Args)
