@@ -69,7 +69,7 @@ func Serve(port int, secret string) {
 	server := hookserve.NewServer()
 	server.Port = port
 	server.Secret = secret
-	server.GoListenAndServe()
+	server.ListenAndServe()
 
 	for {
 		select {
