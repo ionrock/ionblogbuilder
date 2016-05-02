@@ -75,7 +75,7 @@ func Serve(port int, secret string) {
 		select {
 		case event := <-server.Events:
 			fmt.Println(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
-			if commit.Branch == "master" {
+			if event.Branch == "master" {
 				PublishBlog()
 			}
 		default:
