@@ -60,7 +60,9 @@ func ReleaseBlog(blogdir string) {
 }
 
 func PublishBlog() {
+	fmt.Println("Checking out blog")
 	dirname := CheckoutBlog()
+	fmt.Println("Building the blog")
 	BuildBlog(dirname)
 	fmt.Println("Done.")
 }
