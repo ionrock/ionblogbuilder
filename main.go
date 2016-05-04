@@ -108,6 +108,7 @@ func main() {
 			return errors.New("A secret value is required!")
 		}
 
+		PublishBlog()
 		Serve(c.Int("port"), c.String("secret"))
 		return nil
 	}
