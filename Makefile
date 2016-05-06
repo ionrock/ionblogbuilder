@@ -12,4 +12,4 @@ deps:
 
 build-docker:
 	docker build -t $(DOCKER_IMAGE) . && \
-	docker run -it --rm -v `pwd`:$(DOCKER_PATH) -w $(DOCKER_PATH) $(DOCKER_IMAGE) make
+	docker run -it --rm -v `pwd`:$(DOCKER_PATH) -w $(DOCKER_PATH) $(DOCKER_IMAGE) go build -v
