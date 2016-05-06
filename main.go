@@ -12,6 +12,7 @@ import (
 )
 
 func Do(parts ...string) *exec.Cmd {
+	fmt.Printf("Running command: %s\n", parts)
 	cmd := exec.Command(parts[0], parts[1:]...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
@@ -35,6 +36,7 @@ func CheckoutBlog() string {
 
 	err := cmd.Run()
 	if err != nil {
+		fmt.Println("Error checking out blog")
 		panic(err)
 	}
 
@@ -64,6 +66,7 @@ func PublishBlog() {
 	dirname := CheckoutBlog()
 	fmt.Println("Building the blog")
 	BuildBlog(dirname)
+	ReleaseBlog(dirname)
 	fmt.Println("Done.")
 }
 
@@ -100,6 +103,11 @@ func main() {
 			Name:   "secret, s",
 			Usage:  "Github secret key",
 			EnvVar: "IONBLOG_SECRET",
+		},
+		cli.StringFlag{
+			Name:   "output, o",
+			Usage:  "Output directory",
+			EnvVar: "IONBLOG_OUTPUT",
 		},
 	}
 
