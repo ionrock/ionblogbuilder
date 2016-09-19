@@ -24,5 +24,5 @@ run-docker: ionblogbuilder-linux-amd64
 stop-docker: ionblogbuilder-linux-amd64
 	docker-compose stop
 
-run-docker-deamon: ionblogbuilder-linux-amd64
+run-docker-daemon: ionblogbuilder-linux-amd64
 	docker-compose up -d
