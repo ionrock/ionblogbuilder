@@ -15,6 +15,7 @@ ionblogbuilder-linux-amd64:
 
 build-docker:
 	docker build -t $(DOCKER_IMAGE) . && \
+	docker run -it --rm -v `pwd`:$(DOCKER_PATH) -w $(DOCKER_PATH) -e glide up
 	docker run -it --rm -v `pwd`:$(DOCKER_PATH) -w $(DOCKER_PATH) -e GOOS=linux -e GOARCH=amd64 -e CGO_ENABLED=0 $(DOCKER_IMAGE) go build -v -o ionblogbuilder-linux-amd64
 
 run-docker: ionblogbuilder-linux-amd64
