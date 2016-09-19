@@ -113,7 +113,7 @@ func IonblogServerAction(c *cli.Context) error {
 		return errors.New("A secret value is required!")
 	}
 
-	// PublishBlog()
+	PublishBlog()
 	go ServeHook(c.Int("port"), c.String("secret"))
 	go ServeSite(c.Int("webport"))
 

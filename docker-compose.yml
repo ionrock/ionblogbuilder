@@ -1,0 +1,17 @@
+---
+version: '2'
+
+services:
+  ibb:
+    build:
+      context: .
+      dockerfile: Dockerfile.run
+
+    ports:
+      - 80:80
+      - 5566:5566
+
+    volumes:
+      - .:/app
+
+    command: /app/ionblogbuilder-linux-amd64 -s $IBB_WEBHOOK_SECRET
