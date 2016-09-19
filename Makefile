@@ -19,5 +19,10 @@ build-docker:
 	docker run -it --rm -v `pwd`:$(DOCKER_PATH) -w $(DOCKER_PATH) -e GOOS=linux -e GOARCH=amd64 -e CGO_ENABLED=0 $(DOCKER_IMAGE) go build -v -o ionblogbuilder-linux-amd64
 
 run-docker: ionblogbuilder-linux-amd64
-	docker run -it --rm \
-	  -v `pwd`:/app -p 80:80 busybox:glibc /app/ionblogbuilder-linux-amd64 -s `cat webhooksecret`
+	docker-compose up
+
+stop-docker: ionblogbuilder-linux-amd64
+	docker-compose stop
+
+run-docker-deamon: ionblogbuilder-linux-amd64
+	docker-compose up -d
