@@ -79,20 +79,24 @@ func ServeHook(port int, secret string) {
 	server := hookserve.NewServer()
 	server.Port = port
 	server.Secret = secret
+
+	go func() {
+		log.Print("Starting hook even listener")
+		for {
+			select {
+			case event := <-server.Events:
+				log.Print(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
+				if event.Branch == "master" {
+					PublishBlog()
+				}
+			default:
+				time.Sleep(5)
+			}
+		}
+	}()
+
 	log.Printf("Starting hook server on port %d", server.Port)
 	server.ListenAndServe()
-
-	for {
-		select {
-		case event := <-server.Events:
-			log.Print(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
-			if event.Branch == "master" {
-				PublishBlog()
-			}
-		default:
-			time.Sleep(5)
-		}
-	}
 }
 
 func ServeSite(port int) {
