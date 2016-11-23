@@ -82,15 +82,10 @@ func ServeHook(port int, secret string) {
 
 	go func() {
 		log.Print("Starting hook even listener")
-		for {
-			select {
-			case event := <-server.Events:
-				log.Print(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
-				if event.Branch == "master" {
-					PublishBlog()
-				}
-			default:
-				time.Sleep(5)
+		for event := range server.Events {
+			log.Print(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
+			if event.Branch == "master" {
+				PublishBlog()
 			}
 		}
 	}()
