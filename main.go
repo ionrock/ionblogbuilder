@@ -9,7 +9,6 @@ import (
 	"os/exec"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/gorilla/handlers"
 	"github.com/phayes/hookserve/hookserve"
